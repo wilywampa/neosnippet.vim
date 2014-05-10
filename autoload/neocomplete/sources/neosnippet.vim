@@ -29,7 +29,7 @@ set cpo&vim
 let s:source = {
       \ 'name' : 'neosnippet',
       \ 'kind' : 'keyword',
-      \ 'rank' : 8,
+      \ 'rank' : 100,
       \ 'hooks' : {},
       \ 'matchers' :
       \      (g:neocomplete#enable_fuzzy_completion ?
