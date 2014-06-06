@@ -58,6 +58,7 @@ function! neosnippet#mappings#_clear_select_mode_mappings() "{{{
     silent! execute 'sunmap' map
     silent! execute 'sunmap <buffer>' map
   endfor
+  if v:errmsg =~ '^E31' | let v:errmsg = "" | endif
 
   " Define default select mode mappings.
   snoremap <CR>     a<BS>
