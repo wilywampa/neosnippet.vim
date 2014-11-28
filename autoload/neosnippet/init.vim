@@ -107,7 +107,7 @@ function! s:initialize_others() "{{{
             \ concealends oneline
     endif
   augroup END
-  doautocmd neosnippet BufRead
+  doautocmd <nomodeline> neosnippet BufRead
 
   hi def link neosnippetExpandSnippets Special
 

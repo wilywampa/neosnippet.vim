@@ -32,9 +32,14 @@ else
     let b:undo_ftplugin = '|'
 endif
 
-setlocal expandtab
-let &l:shiftwidth=&tabstop
-let &l:softtabstop=&tabstop
+if !&l:expandtab
+    setlocal expandtab
+    let &l:shiftwidth=&tabstop
+    let &l:softtabstop=&tabstop
+else
+    let &l:softtabstop=&shiftwidth
+endif
+
 let &l:commentstring="#%s"
 
 let b:undo_ftplugin .= '
