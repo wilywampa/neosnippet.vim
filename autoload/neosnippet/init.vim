@@ -107,7 +107,11 @@ function! s:initialize_others() "{{{
             \ concealends oneline
     endif
   augroup END
-  doautocmd <nomodeline> neosnippet BufRead
+  if v:version >= 704 || (v:version == 703 && has('patch442'))
+    doautocmd <nomodeline> neosnippet BufRead
+  else
+    doautocmd neosnippet BufRead
+  endif
 
   hi def link neosnippetExpandSnippets Special
 
