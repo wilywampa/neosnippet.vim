@@ -31,7 +31,9 @@ function! neosnippet#handlers#_complete_done() "{{{
     return
   endif
 
-  if has_key(neosnippet#helpers#get_snippets(), v:completed_item.word)
+  let snippets = neosnippet#helpers#get_snippets()
+  if has_key(snippets, v:completed_item.word)
+        \ && !get(snippets[v:completed_item.word], 'oneshot', 0)
     " Don't overwrite exists snippets
     return
   endif
@@ -55,7 +57,7 @@ function! neosnippet#handlers#_complete_done() "{{{
   " Make snippet arguments
   let cnt = 1
   let snippet = item.word
-  if snippet !~ '($'
+  if snippet !~ '()\?$'
     let snippet .= '('
   endif
   for arg in split(matchstr(abbr, '(\zs.\{-}\ze)'), '[^[]\zs\s*,\s*')
@@ -80,6 +82,22 @@ function! neosnippet#handlers#_complete_done() "{{{
         \ neosnippet#parser#_initialize_snippet(
         \   { 'name' : trigger, 'word' : snippet, 'options' : options },
         \   '', 0, '', trigger)
+endfunction"}}}
+
+function! neosnippet#handlers#_cursor_moved() "{{{
+  let expand_stack = neosnippet#variables#expand_stack()
+
+  " Get patterns and count.
+  if !&l:modifiable || !&l:modified
+        \ || empty(expand_stack)
+    return
+  endif
+
+  let expand_info = expand_stack[-1]
+  if expand_info.begin_line == expand_info.end_line
+        \ && line('.') != expand_info.begin_line
+    call neosnippet#commands#_clear_markers()
+  endif
 endfunction"}}}
 
 let &cpo = s:save_cpo
